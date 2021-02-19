@@ -19,7 +19,17 @@ const CountryItemList = () => {
                     나라가 로딩중입니다.
                 </EmptyBlock>
             ) : (
-                countries.map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+                type === "DESC" ?
+                    (countries.sort((a, b) => {
+                        if (a.name > b.name) return 1
+                        else if (a.name === b.name) return 0
+                        else return -1;
+                    }).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)) :
+                    (countries.sort((a, b) => {
+                        if (a.name > b.name) return -1
+                        else if (a.name === b.name) return 0
+                        else return 1;
+                    }).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>))
             )}
         </CountryListBlock>
     );

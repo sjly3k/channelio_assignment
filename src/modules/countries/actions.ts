@@ -18,7 +18,7 @@ export const getCountriesActions = createAsyncAction(
 
 export const toggleButtonAction = createAction(
     TOGGLE_BUTTON
-)();
+)<string>();
 
 export const addCountryAction = createAction(
     ADD_COUNTRY

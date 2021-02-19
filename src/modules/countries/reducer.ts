@@ -32,10 +32,10 @@ const countries = createReducer<CountriesState, CountriesActions>(initialState, 
         ...state,
         countries : state.countries.concat(payload)
     }),
-    [TOGGLE_BUTTON] : (state ) => {
+    [TOGGLE_BUTTON] : (state , { payload }) => {
         let newType : toggleType;
-        if (state.type === "DESC") newType = "ASC";
-        else newType = "DESC";
+        if (payload === "DESC") newType = "DESC";
+        else newType = "ASC";
 
         return {
             ...state,

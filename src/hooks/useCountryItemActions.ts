@@ -1,18 +1,19 @@
 import { useCallback } from "react"
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../modules";
+
 import {
-    GET_COUNTRIES, toggleButtonAction, addCountryAction
+    toggleButtonAction, addCountryAction, GET_COUNTRIES
 } from "../modules/countries/actions";
-import {Country} from "../modules/countries/types";
+import {Country, toggleType} from "../modules/countries/types";
 
 import { toast } from "react-toastify";
+import {RootState} from "../modules";
 
 export function useCountryItemActions() {
     const dispatch = useDispatch();
-
-    const onToggleFilter = useCallback(() => {
-        return dispatch(toggleButtonAction())
+    const { countries : {type}, search } = useSelector((state : RootState) => state);
+    const onToggleFilter = useCallback((type : string) => {
+        return dispatch(toggleButtonAction(type))
     }, [dispatch])
 
     const onAddCountry = useCallback((country : Country) => {
@@ -21,6 +22,8 @@ export function useCountryItemActions() {
     }, [dispatch])
 
     return {
+        type,
+        search,
         onToggleFilter,
         onAddCountry,
     }

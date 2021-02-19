@@ -59,6 +59,10 @@ const AddCountryForm = ({ handleSubmit } : IProps) => {
 const Form = styled.form`
   width: 100%;
   display: flex;
+  button {
+    width: 50px;
+  }
+  margin-top : 15px;
 `
 
 const Input = styled.div`
@@ -66,6 +70,10 @@ const Input = styled.div`
   padding : 10px;
   input {
     width: 100%;
+  }
+  border: 1px solid coral;
+  :not(:last-child) {
+    margin-right: 5px;
   }
 `
 
