@@ -15,8 +15,6 @@
     "outDir": "./dist",
     "moduleResolution": "node"
   },
-  "exclude": [
-    "../../../frontend-test/channelio_assignment1/node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
 }

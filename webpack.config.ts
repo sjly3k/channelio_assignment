@@ -1,5 +1,6 @@
-import path from "path";
-import webpack from "webpack";
+// @ts-ignore
+const path = require("path")
+const webpack = require("webpack")
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -38,7 +39,6 @@ module.exports = {
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 	],
-
 	devServer: {
 		historyApiFallback: true,
 		inline: true,
