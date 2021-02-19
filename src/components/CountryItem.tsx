@@ -34,10 +34,10 @@ const CountryItem = ({ country, deleteCountry } : IProps) => {
 const CountryItemBlock = styled.div`
   flex: 0 0 22%;
   cursor: pointer;
-  padding : 10px;
+  padding : 5px;
   
-  @media (max-width: 768px) {
-    flex: 0 0 50%;
+  @media (max-width: 1024px) {
+    flex: 0 0 45%;
   }
   margin-bottom: 10px;
   border: 1px solid red;

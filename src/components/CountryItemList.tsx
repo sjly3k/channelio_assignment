@@ -6,11 +6,13 @@ import { Country } from 'src/modules/countries';
 
 const CountryItemList = () => {
 
-    const {countries : { type, countries, error }, search, loading, onGetCountries, onDeleteCountry } = useCountryItemList();
+    const {countries : { type, countries, error }, search : {searchTerm}, loading, onGetCountries, onDeleteCountry } = useCountryItemList();
 
     useEffect(() => {
         onGetCountries();
     }, [])
+
+    console.log(searchTerm)
 
     return (
         <CountryListBlock>
@@ -18,6 +20,10 @@ const CountryItemList = () => {
                 <EmptyBlock>
                     나라가 로딩중입니다.
                 </EmptyBlock>
+            ) : (searchTerm.length > 0 ? (
+                countries.map((country : Country) => {
+                    if (country.name.indexOf(searchTerm) > 0) return <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>
+                })
             ) : (
                 type === "DESC" ?
                     (countries.sort((a, b) => {
@@ -30,7 +36,7 @@ const CountryItemList = () => {
                         else if (a.name === b.name) return 0
                         else return 1;
                     }).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>))
-            )}
+            ))}
         </CountryListBlock>
     );
 };

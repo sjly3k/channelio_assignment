@@ -8,6 +8,7 @@ import {Country, toggleType} from "../modules/countries/types";
 
 import { toast } from "react-toastify";
 import {RootState} from "../modules";
+import {changeSearchTermAction} from "../modules/search";
 
 export function useCountryItemActions() {
     const dispatch = useDispatch();
@@ -21,10 +22,15 @@ export function useCountryItemActions() {
         toast.info("국가를 추가했습니다.")
     }, [dispatch])
 
+    const onChangeSearchTerm = useCallback((searchTerm : string) => {
+        return dispatch(changeSearchTermAction(searchTerm))
+    }, [dispatch])
+
     return {
         type,
         search,
         onToggleFilter,
         onAddCountry,
+        onChangeSearchTerm
     }
 };
