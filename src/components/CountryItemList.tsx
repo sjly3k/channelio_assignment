@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useCountryItemList } from '../hooks/useCountryItemList';
 import CountryItem from "./CountryItem";
 import styled from 'styled-components';
@@ -7,36 +7,46 @@ import { Country } from 'src/modules/countries';
 const CountryItemList = () => {
 
     const {countries : { type, countries, error }, search : {searchTerm}, loading, onGetCountries, onDeleteCountry } = useCountryItemList();
+    const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
 
     useEffect(() => {
         onGetCountries();
     }, [])
 
-    console.log(searchTerm)
+    useEffect(() => {
+        const searching = countries.filter((country : Country) => country.name.indexOf(searchTerm) > 0)
+        setSearchedCountries(searching)
+    }, [searchTerm])
 
+    const sortCountries = (countries : Country[]) => {
+        if (type === "DESC")
+            return ( countries.sort((a, b) => {
+                if (a.name > b.name) return 1
+                else if (a.name === b.name) return 0
+                else return -1;
+            }))
+        else
+            return ( countries.sort((a, b) => {
+            if (a.name > b.name) return -1
+            else if (a.name === b.name) return 0
+            else return 1;
+        }))
+    }
+
+    // @ts-ignore
     return (
         <CountryListBlock>
-            {!loading && countries.length === 0 ? (
+            {!loading && countries.length === 0 ?
+                (
                 <EmptyBlock>
                     나라가 로딩중입니다.
                 </EmptyBlock>
-            ) : (searchTerm.length > 0 ? (
-                countries.map((country : Country) => {
-                    if (country.name.indexOf(searchTerm) > 0) return <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>
-                })
             ) : (
-                type === "DESC" ?
-                    (countries.sort((a, b) => {
-                        if (a.name > b.name) return 1
-                        else if (a.name === b.name) return 0
-                        else return -1;
-                    }).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)) :
-                    (countries.sort((a, b) => {
-                        if (a.name > b.name) return -1
-                        else if (a.name === b.name) return 0
-                        else return 1;
-                    }).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>))
-            ))}
+                searchTerm.length > 0 ? (sortCountries(searchedCountries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>))
+            : (
+                    sortCountries(countries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+                )
+            )}
         </CountryListBlock>
     );
 };
