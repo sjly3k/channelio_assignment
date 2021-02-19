@@ -4,7 +4,7 @@ import {useCallback} from "react";
 import {
     addCountryAction,
     Country,
-    deleteCountryAction,
+    deleteCountryAction, GET_COUNTRIES,
     getCountriesActionsThunk,
     toggleButtonAction,
 } from "../modules/countries";
@@ -12,7 +12,10 @@ import { toast } from "react-toastify";
 
 export function useCountryListSearch() {
     const dispatch = useDispatch();
-    const { countries, search } = useSelector((state : RootState) => state);
+    const { countries, search, loading } = useSelector((state : RootState) => ({
+        ...state,
+        loading : state.loading[GET_COUNTRIES]
+    }));
 
     const onGetCountries = useCallback(() => {
         return dispatch(getCountriesActionsThunk())
@@ -35,6 +38,7 @@ export function useCountryListSearch() {
     return {
         countries,
         search,
+        loading,
         onGetCountries,
         onToggleFilter,
         onDeleteCountry,
