@@ -14,7 +14,7 @@ export const getCountriesActions = createAsyncAction(
     GET_COUNTRIES,
     GET_COUNTRIES_SUCCESS,
     GET_COUNTRIES_FAILURE,
-)<undefined, any, AxiosError>();
+)<undefined, Country[], AxiosError>();
 
 export const toggleButtonAction = createAction(
     TOGGLE_BUTTON

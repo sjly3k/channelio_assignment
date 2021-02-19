@@ -1,7 +1,7 @@
 import {ThunkAction} from "redux-thunk";
 import { toast } from "react-toastify";
 import {finishLoadingAction, startLoadingAction} from "../loading";
-import { getCountries } from "src/libs/apis";
+import { getCountries } from "../../libs/apis";
 import {GET_COUNTRIES, getCountriesActions} from "./actions";
 
 export function getCountriesActionsThunk() : ThunkAction<any, any, any, any> {
@@ -10,7 +10,7 @@ export function getCountriesActionsThunk() : ThunkAction<any, any, any, any> {
         dispatch(startLoadingAction(GET_COUNTRIES));
         dispatch(request())
         try {
-            const data = await getCountries();
+            const { data } = await getCountries();
             dispatch(success(data))
             toast.success("나라 정보를 가져오는데 성공하였습니다.")
         } catch (e) {

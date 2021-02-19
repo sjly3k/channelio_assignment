@@ -22,6 +22,24 @@ module.exports = {
 				test: /\.tsx?$/,
 				use: ['babel-loader', 'ts-loader'],
 			},
+			{
+				test: /\.css$/,
+				oneOf: [
+					{
+						include: path.resolve(__dirname, "src"),
+						use: [
+							"style-loader",
+							{ loader: "css-loader", options: { modules: true } }
+						]
+					},
+					{
+						use: [
+							"style-loader",
+							"css-loader"
+						]
+					}
+				]
+			}
 		],
 	},
 
@@ -46,4 +64,5 @@ module.exports = {
 		hot: true,
 		publicPath: '/',
 	},
+
 };
