@@ -11,7 +11,7 @@ const CountryItem = ({ country, deleteCountry } : IProps) => {
 
     const { name, alpha2Code, callingCodes, capital, region } = country;
     return (
-        <CountryItemBlock>
+        <CountryItemBlock key={name}>
             <div className="country-list">
                 <div className="name">국가명 : {name}</div>
                 <div className="name">국가코드 : {alpha2Code}</div>
@@ -19,7 +19,7 @@ const CountryItem = ({ country, deleteCountry } : IProps) => {
                 <div className="name">지역 : {region}</div>
                 <div className={"name"}>지역코드 :
                     {
-                        callingCodes.map(code => <span>{code}</span>)
+                        callingCodes.map(code => <span key={`${name}-${code}`}>'{code}'</span>)
                     }
                 </div>
             </div>

@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
-import { useCountryListSearch } from '../hooks/useCountryListSearch';
+import { useCountryItemList } from '../hooks/useCountryItemList';
 import CountryItem from "./CountryItem";
 import styled from 'styled-components';
 import { Country } from 'src/modules/countries';
 
 const CountryItemList = () => {
 
-    const {countries : { type, countries, error }, search, loading, onGetCountries, onAddCountry, onDeleteCountry, onToggleFilter} = useCountryListSearch();
+    const {countries : { type, countries, error }, search, loading, onGetCountries, onDeleteCountry } = useCountryItemList();
 
-    console.log(countries)
     useEffect(() => {
         onGetCountries();
     }, [])
