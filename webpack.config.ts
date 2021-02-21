@@ -10,7 +10,9 @@ module.exports = {
 	mode: prod ? 'production' : 'development',
 	devtool: prod ? 'hidden-source-map' : 'eval',
 
-	entry: './src/index.tsx',
+	entry: {
+		index : './src/index.tsx',
+	},
 
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -44,7 +46,7 @@ module.exports = {
 	},
 
 	output: {
-		path: path.join(__dirname, '/dist'),
+		path: path.join(__dirname, 'build'),
 		filename: 'bundle.js',
 	},
 
@@ -58,6 +60,7 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 	],
 	devServer: {
+		contentBase: path.join(__dirname, "build"),
 		historyApiFallback: true,
 		inline: true,
 		port: 3001,
