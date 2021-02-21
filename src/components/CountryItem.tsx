@@ -50,9 +50,14 @@ const CountryItemBlock = styled.div`
   cursor: pointer;
   padding : 10px;
 
-  @media (max-width: 1024px) {
-    flex: 0 0 45%;
+  @media (max-width: 768px) {
+    flex: 0 0 44%;
   }
+  
+  @media (max-width: 375px) {
+    flex: 0 0 95%;
+  }
+  
   margin-bottom: 10px;
   border: 1px solid gray;
   border-radius: 5px;

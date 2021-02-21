@@ -7,7 +7,8 @@
     "dev": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
     "prestart": "npm build",
-    "start": "webpack --mode development"
+    "start": "webpack --mode development",
+    "deploy" : "aws s3 sync ./build s3://deploy-channeltalk --profile=seungjin"
   },
   "keywords": [],
   "author": "",

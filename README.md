@@ -7,10 +7,10 @@
 - Language : TypeScript
 - Library : React, Redux, Redux-thunk, Redux-form, Toast
 - Styling : styled-components
-- Production : Vercel
+- Production : Amazon Web Service, S3 Bucket 정적 웹사이트 호스팅 활용
 
 ## 프로젝트 시연
-- Production : https://channelio_assignment.vercel.app/
+- Production : http://deploy-channeltalk.s3-website.ap-northeast-2.amazonaws.com/
 - Development
     1. 원하는 디렉토리에 진입하여 Commend 창에 https://github.com/sjly3k/channelio_assignment.git 입력
     2. 프로젝트 디렉토리로 진입하여 yarn start 명령어 실행 후 http://localhost:3001 접속
@@ -23,7 +23,7 @@
     - OK
     
 2. 보일러 플레이트(create-react-app 등)를 사용하지 않아야 함. 
-    - OK (CRA를 사용하지 않고, Webpack과 Babel을 활용해 빌드)현
+    - OK (CRA를 사용하지 않고, Webpack과 Babel을 활용해 빌드)
     
 3. 버튼을 누르면 각 필드별 오름차순, 내림차순 정렬이 되어야 함. 
     - OK 나라 정보에 포함되어 있는 모든 필드를 선택하고, 해당 필드에 대한 오름차순, 내림차순 정렬이 가능함.
