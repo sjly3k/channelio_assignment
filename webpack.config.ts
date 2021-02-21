@@ -53,7 +53,7 @@ module.exports = {
 			React: 'react',
 		}),
 		new HtmlWebpackPlugin({
-			template: './src/index.html',
+			template: './public/index.html',
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 	],

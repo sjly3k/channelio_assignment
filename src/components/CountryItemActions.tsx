@@ -38,7 +38,7 @@ const CountryItemActions = () => {
                 capital : formData.capital,
                 region : formData.region
             }
-            const findCountry = countries.find((country : Country) => country.name === newCountry.name)
+            const findCountry = countries.some((country : Country) => country.name === newCountry.name)
             if (findCountry) toast.error("같은 이름을 가진 국가가 있습니다.")
             else onAddCountry(newCountry);
         }
