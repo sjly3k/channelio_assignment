@@ -31,7 +31,7 @@ const CountryItem = ({ country, deleteCountry } : IProps) => {
                     {
                         callingCodes.map(code => {
                             if (!code) {
-                                return <span> 없음</span>
+                                return <span key={`${name}-${code}`}> 없음</span>
                             } else return (<span key={`${name}-${code}`}> '{code}' </span>)
                         })
                     }
@@ -49,7 +49,7 @@ const CountryItemBlock = styled.div`
   flex: 0 0 22%;
   cursor: pointer;
   padding : 10px;
-  
+
   @media (max-width: 1024px) {
     flex: 0 0 45%;
   }
@@ -70,7 +70,7 @@ const CountryItemBlock = styled.div`
       font-weight: bold;
     }
   }
-  
+
   .country-btn {
     display: flex;
     justify-content: space-evenly;

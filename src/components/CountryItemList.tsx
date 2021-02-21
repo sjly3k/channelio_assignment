@@ -3,16 +3,18 @@ import { useCountryItemList } from '../hooks/useCountryItemList';
 import CountryItem from "./CountryItem";
 import styled from 'styled-components';
 import { Country } from 'src/modules/countries';
-import {firstFilterType} from "../modules/countries/types";
+import _ from "lodash"
 
 const CountryItemList = () => {
 
     const {countries : {
-        firstFilter, secondFilter, countries, error
+        firstFilter, secondFilter, countries
     },
         search : {searchTerm}, loading, onGetCountries, onDeleteCountry
     } = useCountryItemList();
     const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
+    const [currentLength, setCurrentLength] = useState(30);
+
 
     useEffect(() => {
         onGetCountries();
@@ -36,8 +38,26 @@ const CountryItemList = () => {
                 searching = searching.concat(filtering)
             }
         }
+        searching = _.uniq(searching);
         setSearchedCountries(searching)
     }, [searchTerm])
+
+    useEffect(() => {
+        function infiniteScroll() {
+            let scrollHeight = document.documentElement.scrollHeight;
+            let scrollTop = document.documentElement.scrollTop;
+            let clientHeight = document.documentElement.clientHeight;
+
+            if (scrollTop + clientHeight >= scrollHeight  && currentLength <= countries.length) {
+                setCurrentLength(currentLength + 30);
+            }
+        }
+
+        window.addEventListener("scroll", infiniteScroll);
+        return () => {
+            window.removeEventListener("scroll", infiniteScroll)
+        }
+    })
 
     const sortCountries = (countries : Country[]) => {
         if (secondFilter === "DESC")
@@ -71,12 +91,14 @@ const CountryItemList = () => {
                 <EmptyBlock>
                     나라가 로딩중입니다.
                 </EmptyBlock>
-            ) : (
-                searchTerm.length > 0 ? (sortCountries(searchedCountries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>))
-            : (
-                    sortCountries(countries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+            ) : searchTerm.length > 0 ?
+                    (
+                    sortCountries(searchedCountries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
                 )
-            )}
+            : (
+                    sortCountries(countries).slice(0, currentLength).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+                )
+            }
         </CountryListBlock>
     );
 };

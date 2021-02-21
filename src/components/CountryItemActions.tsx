@@ -23,10 +23,7 @@ const CountryItemActions = () => {
     }
 
     useEffect(() => {
-        // deps 배열 비어 있으면 componentDidMount
-        // deps 배열 차 있으면 렌더링 시마다 변경된 state 중 deps에 들어가 있는 것이 있는지 확인
         delayedQueryCall();
-        // 이전 debounce 호출을 취소 (componentWillUnmount)
         return delayedQueryCall.cancel;
     }, [delayedQueryCall])
 
