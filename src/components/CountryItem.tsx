@@ -14,18 +14,31 @@ const CountryItem = ({ country, deleteCountry } : IProps) => {
     return (
         <CountryItemBlock key={key}>
             <div className="country-list">
-                <div className="name">국가명 : {name}</div>
-                <div className="name">국가코드 : {alpha2Code}</div>
-                <div className="name">수도 : {capital}</div>
-                <div className="name">지역 : {region}</div>
-                <div className={"name"}>지역코드 :
+                <div className="name"><strong>국가명</strong> : {name}</div>
+                <div className="name"><strong>국가코드</strong> : {
+                    alpha2Code ? (<span> {alpha2Code}</span>) : (<span> 없음</span>)
+                }
+                </div>
+                <div className="name"><strong>수도</strong> : {
+                    capital ? (<span> {capital}</span>) : (<span> 없음</span>)
+                }
+                </div>
+                <div className="name"><strong>지역</strong> : {
+                    region ? (<span> {region}</span>) : (<span> 없음</span>)
+                }
+                </div>
+                <div className={"name"}><strong>지역코드</strong> :
                     {
-                        callingCodes.map(code => <span key={`${name}-${code}`}>'{code}'</span>)
+                        callingCodes.map(code => {
+                            if (!code) {
+                                return <span> 없음</span>
+                            } else return (<span key={`${name}-${code}`}> '{code}' </span>)
+                        })
                     }
                 </div>
             </div>
             <div className={"country-btn"} onClick={() => deleteCountry(country)}>
-                <div className={"btn-delete"}>삭제</div>
+                <div className={"btn-delete"}>국가 삭제</div>
             </div>
         </CountryItemBlock>
     );
@@ -35,13 +48,13 @@ const CountryItem = ({ country, deleteCountry } : IProps) => {
 const CountryItemBlock = styled.div`
   flex: 0 0 22%;
   cursor: pointer;
-  padding : 5px;
+  padding : 10px;
   
   @media (max-width: 1024px) {
     flex: 0 0 45%;
   }
   margin-bottom: 10px;
-  border: 1px solid red;
+  border: 1px solid gray;
   border-radius: 5px;
   .country-list {
     display: flex;
@@ -53,14 +66,18 @@ const CountryItemBlock = styled.div`
     div {
       text-align: center;
     }
+    strong {
+      font-weight: bold;
+    }
   }
   
   .country-btn {
     display: flex;
     justify-content: space-evenly;
-    padding : 5px 10px;
-    background-color: aquamarine;
-    color : gray;
+    padding : 10px;
+    background-color: lightsalmon;
+    color : white;
+    font-weight: bold;
   }
 `;
 

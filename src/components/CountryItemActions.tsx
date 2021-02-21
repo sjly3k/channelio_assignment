@@ -54,6 +54,7 @@ const CountryItemActions = () => {
 
     return (
         <CountryItemActionsBlock>
+            <div className={"main-title"}>통합 검색창 (대소문자 구분 X)</div>
             <SearchAction>
                 <input
                     className={"search"}
@@ -62,6 +63,7 @@ const CountryItemActions = () => {
                     placeholder={"국가명으로 검색해보세요."}
                 />
             </SearchAction>
+            <div className={"main-title"}>조건 필터링</div>
             <FilterAction>
                 <div className={"firstFilter"}>
                     <div className={"title"}>첫 번째 필터링</div>
@@ -72,7 +74,7 @@ const CountryItemActions = () => {
                                value={"name"}
                                checked={firstFilter === "name"}
                         />
-                        <span className={"text"}>이름순 정렬</span>
+                        <span className={"text"}>국가명순 정렬</span>
                     </div>
                     <div className={"filter"}>
                         <input
@@ -83,15 +85,6 @@ const CountryItemActions = () => {
                             checked={firstFilter === "alpha2Code"}
                         />
                         <span className={"text"}>국가코드순 정렬</span>
-                    </div>
-                    <div className={"filter"}>
-                        <input type={"radio"}
-                               name={"firstFilter"}
-                               onChange={(event) => handleOnToggleFilter(event)}
-                               value={"callingCodes"}
-                               checked={firstFilter === "callingCodes"}
-                        />
-                        <span className={"text"}>지역번호순 정렬</span>
                     </div>
                     <div className={"filter"}>
                         <input type={"radio"}
@@ -110,6 +103,15 @@ const CountryItemActions = () => {
                                checked={firstFilter === "region"}
                         />
                         <span className={"text"}>지역순 정렬</span>
+                    </div>
+                    <div className={"filter"}>
+                        <input type={"radio"}
+                               name={"firstFilter"}
+                               onChange={(event) => handleOnToggleFilter(event)}
+                               value={"callingCodes"}
+                               checked={firstFilter === "callingCodes"}
+                        />
+                        <span className={"text"}>지역코드순 정렬</span>
                     </div>
                 </div>
                 <div className={"secondFilter"}>
@@ -135,6 +137,7 @@ const CountryItemActions = () => {
                     </div>
                 </div>
             </FilterAction>
+            <div className={"main-title"}>새로운 나라 추가하기</div>
             <AddCountryForm onSubmit={handleOnSubmit}/>
         </CountryItemActionsBlock>
     );
@@ -148,6 +151,13 @@ const CountryItemActionsBlock = styled.div`
   .scrap-text {
     margin-left: 6px;
   }
+  .main-title {
+    width: 100%;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    justify-content: flex-start;
+  }
 `;
 const SearchAction = styled.div`
   display: flex;
@@ -155,7 +165,7 @@ const SearchAction = styled.div`
   border-bottom: 2px solid gray;
   width: 100%;
   justify-content: center;
-  
+  margin-bottom: 15px;
   input.search {
     width: 100%;
   }
