@@ -78,5 +78,6 @@ const Input = styled.div`
 `
 
 export default reduxForm({
-    form : "CountryForm"
+    form : "CountryForm",
+    enableReinitialize : true,
 })(AddCountryForm);

@@ -5,10 +5,11 @@ import {
     GET_COUNTRIES_FAILURE,
     GET_COUNTRIES_SUCCESS, TOGGLE_BUTTON,
 } from "./actions";
-import { CountriesState, CountriesActions, toggleType } from "./types";
+import {CountriesState, CountriesActions} from "./types";
 
 const initialState : CountriesState = {
-    type : "DESC",
+    firstFilter : "name",
+    secondFilter : "DESC",
     countries : [],
     error : null
 }
@@ -32,14 +33,22 @@ const countries = createReducer<CountriesState, CountriesActions>(initialState, 
         ...state,
         countries : state.countries.concat(payload)
     }),
-    [TOGGLE_BUTTON] : (state , { payload }) => {
-        let newType : toggleType;
-        if (payload === "DESC") newType = "DESC";
-        else newType = "ASC";
-
-        return {
-            ...state,
-            type : newType,
+    [TOGGLE_BUTTON] : (state , { payload, meta} ) => {
+        if (payload === "firstFilter" && (meta === "name" || meta === "alpha2Code" || meta === "callingCodes" ||
+            meta === "capital" || meta === "region")) {
+            return {
+                ...state,
+                firstFilter : meta,
+            }
+        } else if (payload === "secondFilter" && (meta === "DESC" || meta === "ASC")) {
+            return {
+                ...state,
+                secondFilter : meta
+            }
+        } else {
+            return {
+                ...state
+            }
         }
     },
     [DELETE_COUNTRY] : (state, { payload }) => ({

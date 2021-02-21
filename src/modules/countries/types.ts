@@ -9,12 +9,13 @@ export interface Country {
     region : string
 }
 
-export type toggleType = "DESC" | "ASC"
-
+export type firstFilterType = "name" | "alpha2Code" | "callingCodes" | "capital" | "region"
+export type secondFilterType = "DESC" | "ASC"
 export type CountriesActions = ActionType<typeof actions>
 
 export interface CountriesState {
-    type : toggleType,
+    firstFilter : firstFilterType,
+    secondFilter : secondFilterType,
     countries : Country[],
     error : string | null
 }

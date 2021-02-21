@@ -8,7 +8,7 @@ import _ from "lodash";
 
 const CountryItemActions = () => {
 
-    const { onToggleFilter, onAddCountry, onChangeSearchTerm, type, search } = useCountryItemActions();
+    const { onToggleFilter, onAddCountry, onChangeSearchTerm, firstFilter, secondFilter, search, countries } = useCountryItemActions();
     const [searchTerm, setSearchTerm] = useState("");
 
     const updateCountries = () => {
@@ -19,8 +19,7 @@ const CountryItemActions = () => {
         _.debounce(updateCountries, 1000), [searchTerm])
 
     const handleInput = (e : React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setSearchTerm(value)
+        setSearchTerm(e.target.value)
     }
 
     useEffect(() => {
@@ -42,13 +41,15 @@ const CountryItemActions = () => {
                 capital : formData.capital,
                 region : formData.region
             }
-            onAddCountry(newCountry);
+            const findCountry = countries.find((country : Country) => country.name === newCountry.name)
+            if (findCountry) toast.error("같은 이름을 가진 국가가 있습니다.")
+            else onAddCountry(newCountry);
         }
     }
 
     const handleOnToggleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        onToggleFilter(value);
+        // @ts-ignore
+        onToggleFilter(e.target.name, e.target.value);
     }
 
     return (
@@ -62,24 +63,76 @@ const CountryItemActions = () => {
                 />
             </SearchAction>
             <FilterAction>
-                <div className={"filter"}>
-                    <input type={"radio"}
-                           name={"filter"}
-                           onChange={(event) => handleOnToggleFilter(event)}
-                           value={"ASC"}
-                           checked={type === "ASC"}
-                    />
-                    <span className={"text"}>내림차순</span>
+                <div className={"firstFilter"}>
+                    <div className={"title"}>첫 번째 필터링</div>
+                    <div className={"filter"}>
+                        <input type={"radio"}
+                               name={"firstFilter"}
+                               onChange={(event) => handleOnToggleFilter(event)}
+                               value={"name"}
+                               checked={firstFilter === "name"}
+                        />
+                        <span className={"text"}>이름순 정렬</span>
+                    </div>
+                    <div className={"filter"}>
+                        <input
+                            type={"radio"}
+                            name={"firstFilter"}
+                            onChange={(event) => handleOnToggleFilter(event)}
+                            value={"alpha2Code"}
+                            checked={firstFilter === "alpha2Code"}
+                        />
+                        <span className={"text"}>국가코드순 정렬</span>
+                    </div>
+                    <div className={"filter"}>
+                        <input type={"radio"}
+                               name={"firstFilter"}
+                               onChange={(event) => handleOnToggleFilter(event)}
+                               value={"callingCodes"}
+                               checked={firstFilter === "callingCodes"}
+                        />
+                        <span className={"text"}>지역번호순 정렬</span>
+                    </div>
+                    <div className={"filter"}>
+                        <input type={"radio"}
+                               name={"firstFilter"}
+                               onChange={(event) => handleOnToggleFilter(event)}
+                               value={"capital"}
+                               checked={firstFilter === "capital"}
+                        />
+                        <span className={"text"}>수도순 정렬</span>
+                    </div>
+                    <div className={"filter"}>
+                        <input type={"radio"}
+                               name={"firstFilter"}
+                               onChange={(event) => handleOnToggleFilter(event)}
+                               value={"region"}
+                               checked={firstFilter === "region"}
+                        />
+                        <span className={"text"}>지역순 정렬</span>
+                    </div>
                 </div>
-                <div className={"filter"}>
-                    <input
-                        type={"radio"}
-                        name={"filter"}
-                        onChange={(event) => handleOnToggleFilter(event)}
-                        value={"DESC"}
-                        checked={type === "DESC"}
-                    />
-                    <span className={"text"}>오름차순</span>
+                <div className={"secondFilter"}>
+                    <div className={"title"}>두 번째 필터링</div>
+                    <div className={"filter"}>
+                        <input type={"radio"}
+                               name={"secondFilter"}
+                               onChange={(event) => handleOnToggleFilter(event)}
+                               value={"ASC"}
+                               checked={secondFilter === "ASC"}
+                        />
+                        <span className={"text"}>내림차순</span>
+                    </div>
+                    <div className={"filter"}>
+                        <input
+                            type={"radio"}
+                            name={"secondFilter"}
+                            onChange={(event) => handleOnToggleFilter(event)}
+                            value={"DESC"}
+                            checked={secondFilter === "DESC"}
+                        />
+                        <span className={"text"}>오름차순</span>
+                    </div>
                 </div>
             </FilterAction>
             <AddCountryForm onSubmit={handleOnSubmit}/>
@@ -113,9 +166,20 @@ const FilterAction = styled(SearchAction)`
     :first-child {
       margin-right: 16px;
     }
+    line-height: 25px;
   }
   span.text {
     margin-left: 4px;
+  }
+  
+  .firstFilter {
+    margin-right: 20px;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
   }
 `
 

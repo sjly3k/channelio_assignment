@@ -1,6 +1,6 @@
 import {createAction, createAsyncAction} from "typesafe-actions";
 import {AxiosError} from "axios";
-import {Country} from "../countries";
+import {Country, firstFilterType, secondFilterType} from "../countries";
 
 export const GET_COUNTRIES = 'countries/GET_COUNTRIES' as const
 export const GET_COUNTRIES_SUCCESS ='countries/GET_COUNTRIES_SUCCESS' as const
@@ -18,7 +18,7 @@ export const getCountriesActions = createAsyncAction(
 
 export const toggleButtonAction = createAction(
     TOGGLE_BUTTON
-)<string>();
+)<string, firstFilterType | secondFilterType>();
 
 export const addCountryAction = createAction(
     ADD_COUNTRY

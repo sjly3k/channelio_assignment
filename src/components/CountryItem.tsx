@@ -10,8 +10,9 @@ interface IProps {
 const CountryItem = ({ country, deleteCountry } : IProps) => {
 
     const { name, alpha2Code, callingCodes, capital, region } = country;
+    const key = name + capital + region
     return (
-        <CountryItemBlock key={name}>
+        <CountryItemBlock key={key}>
             <div className="country-list">
                 <div className="name">국가명 : {name}</div>
                 <div className="name">국가코드 : {alpha2Code}</div>
