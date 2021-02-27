@@ -16,7 +16,6 @@ const CountryItemList = () => {
     } = useCountryItemList();
     const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
 
-    const rootRef = useRef(null);
     const targetRef = useRef(null);
 
 
@@ -84,7 +83,7 @@ const CountryItemList = () => {
     }
 
     return (
-        <CountryListBlock ref={rootRef}>
+        <CountryListBlock>
             {!loading && countries.length === 0 ?
                 (
                 <EmptyBlock>
