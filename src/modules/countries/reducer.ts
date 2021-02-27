@@ -11,7 +11,9 @@ const initialState : CountriesState = {
     firstFilter : "name",
     secondFilter : "DESC",
     countries : [],
-    error : null
+    error : null,
+    currentLength : 0,
+    isLastPage : false
 }
 
 const countries = createReducer<CountriesState, CountriesActions>(initialState, {
@@ -21,8 +23,10 @@ const countries = createReducer<CountriesState, CountriesActions>(initialState, 
     [GET_COUNTRIES_SUCCESS] : (state, { payload }) => {
         return {
             ...state,
-            countries : payload,
-            error : null
+            countries : state.countries.concat(payload),
+            error : null,
+            isLastPage : payload.length === 0,
+            currentLength : state.currentLength + payload.length
         }
     },
     [GET_COUNTRIES_FAILURE] : (state, { payload }) => ({
@@ -55,7 +59,6 @@ const countries = createReducer<CountriesState, CountriesActions>(initialState, 
         ...state,
         countries : state.countries.filter(country => country.name !== payload.name)
     }),
-
 })
 
 export default countries;

@@ -17,5 +17,7 @@ export interface CountriesState {
     firstFilter : firstFilterType,
     secondFilter : secondFilterType,
     countries : Country[],
-    error : string | null
+    error : string | null,
+    currentLength : number,
+    isLastPage : boolean
 }

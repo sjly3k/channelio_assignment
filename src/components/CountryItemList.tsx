@@ -1,23 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useCountryItemList } from '../hooks/useCountryItemList';
 import CountryItem from "./CountryItem";
 import styled from 'styled-components';
 import { Country } from 'src/modules/countries';
 import _ from "lodash"
+import useInfinteScroll from "../hooks/useIntersectionObserver";
+import {bool} from "prop-types";
 
 const CountryItemList = () => {
 
     const {countries : {
-        firstFilter, secondFilter, countries
+        firstFilter, secondFilter, countries, currentLength, isLastPage
     },
         search : {searchTerm}, loading, onGetCountries, onDeleteCountry
     } = useCountryItemList();
     const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
-    const [currentLength, setCurrentLength] = useState(30);
+
+    const rootRef = useRef(null);
+    const targetRef = useRef(null);
 
 
     useEffect(() => {
-        onGetCountries();
+        onGetCountries(currentLength);
     }, [])
 
     useEffect(() => {
@@ -42,22 +46,17 @@ const CountryItemList = () => {
         setSearchedCountries(searching)
     }, [searchTerm])
 
-    useEffect(() => {
-        function infiniteScroll() {
-            let scrollHeight = document.documentElement.scrollHeight;
-            let scrollTop = document.documentElement.scrollTop;
-            let clientHeight = document.documentElement.clientHeight;
-
-            if (scrollTop + clientHeight >= scrollHeight  && currentLength <= countries.length) {
-                setCurrentLength(currentLength + 30);
+    useInfinteScroll({
+        target : targetRef.current,
+        threshold : 0.5,
+        // @ts-ignore
+        onIntersect: ([{ isIntersecting }]) => {
+            if (isIntersecting && !loading && !isLastPage) {
+                onGetCountries(currentLength);
             }
         }
+    });
 
-        window.addEventListener("scroll", infiniteScroll);
-        return () => {
-            window.removeEventListener("scroll", infiniteScroll)
-        }
-    })
 
     const sortCountries = (countries : Country[]) => {
         if (secondFilter === "DESC")
@@ -85,7 +84,7 @@ const CountryItemList = () => {
     }
 
     return (
-        <CountryListBlock>
+        <CountryListBlock ref={rootRef}>
             {!loading && countries.length === 0 ?
                 (
                 <EmptyBlock>
@@ -96,9 +95,11 @@ const CountryItemList = () => {
                     sortCountries(searchedCountries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
                 )
             : (
-                    sortCountries(countries).slice(0, currentLength).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+                    sortCountries(countries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
                 )
             }
+            {/* 페이지 끝을 감시하기 위한 빈 div */}
+            <div className={"empty-div"} ref={targetRef} />
         </CountryListBlock>
     );
 };
@@ -108,6 +109,11 @@ const CountryListBlock = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+  
+  .empty-div {
+    width: 100%;
+    height : 10px;
+  }
 `;
 
 const EmptyBlock = styled.div`

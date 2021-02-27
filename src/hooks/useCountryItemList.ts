@@ -15,8 +15,8 @@ export function useCountryItemList() {
         loading : state.loading[GET_COUNTRIES]
     }));
 
-    const onGetCountries = useCallback(() => {
-        return dispatch(getCountriesActionsThunk())
+    const onGetCountries = useCallback((currentLength : number) => {
+        dispatch(getCountriesActionsThunk(currentLength))
     }, [dispatch])
 
     const onDeleteCountry = useCallback((country : Country) => {
