@@ -16,7 +16,8 @@ const CountryItemActions = () => {
     }
 
     const delayedQueryCall = useCallback(
-        debounce(updateCountries, 1000), [searchTerm])
+        debounce(updateCountries, 1000), [searchTerm]
+    )
 
     const handleInput = (e : React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value)

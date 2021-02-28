@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { useCountryItemList } from '../hooks/useCountryItemList';
 import CountryItem from "./CountryItem";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { Country } from 'src/modules/countries';
-import uniq from "lodash/uniq"
 import useInfiniteScroll from "../hooks/useIntersectionObserver";
 
 const CountryItemList = () => {
@@ -40,8 +39,11 @@ const CountryItemList = () => {
                 searching = searching.concat(filtering)
             }
         }
-        searching = uniq(searching);
-        setSearchedCountries(searching)
+
+        import('lodash/uniq').then(uniq => {
+            searching = uniq.default(searching);
+            setSearchedCountries(searching)
+        })
     }, [searchTerm])
 
     useInfiniteScroll({

@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import styled from "styled-components";
 import Responsive from "../components/Responsive";
-import CountryItemList from "../components/CountryItemList";
-import CountryItemActions from "../components/CountryItemActions";
 
 const CountryListPageBlock = styled(Responsive)``
 
+const CountryItemListLazy = React.lazy(() => import('../components/CountryItemList'))
+const CountryItemActionsLazy = React.lazy(() => import('../components/CountryItemActions'))
+
 const CountryListItemPage = () => {
     return (
-        <CountryListPageBlock>
-            <CountryItemActions/>
-            <CountryItemList/>
-        </CountryListPageBlock>
+        <Suspense fallback={<div>Loading</div>}>
+            <CountryListPageBlock>
+                <CountryItemActionsLazy/>
+                <CountryItemListLazy/>
+            </CountryListPageBlock>
+        </Suspense>
     );
 };
 

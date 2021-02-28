@@ -3,15 +3,16 @@ const path = require("path")
 const webpack = require("webpack")
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
 	mode: prod ? 'production' : 'development',
-	devtool: prod ? 'hidden-source-map' : 'eval',
 
 	entry: {
-		index : './src/index.tsx',
+		index : ['./src/index.tsx'],
+		react : ["react", "react-dom"],
 	},
 
 	resolve: {
@@ -22,6 +23,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.tsx?$/,
+				exclude : /node_modules/,
 				use: ['babel-loader', 'ts-loader'],
 			},
 			{
@@ -47,7 +49,7 @@ module.exports = {
 
 	output: {
 		path: path.join(__dirname, 'build'),
-		filename: 'bundle.js',
+		filename: '[name].bundle.js',
 	},
 
 	plugins: [
@@ -58,6 +60,7 @@ module.exports = {
 			template: './public/index.html',
 		}),
 		new webpack.HotModuleReplacementPlugin(),
+		new CompressionPlugin(),
 	],
 	devServer: {
 		contentBase: path.join(__dirname, "build"),
@@ -67,5 +70,13 @@ module.exports = {
 		hot: true,
 		publicPath: '/',
 	},
-
+	optimization : {
+		runtimeChunk: {
+			//추가 부분
+			name: "runtime"
+		},
+		splitChunks : {
+			chunks : 'all',
+		}
+	}
 };
