@@ -72,7 +72,6 @@ module.exports = {
 	},
 	optimization : {
 		runtimeChunk: {
-			//추가 부분
 			name: "runtime"
 		},
 		splitChunks : {

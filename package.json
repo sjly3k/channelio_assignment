@@ -8,7 +8,7 @@
     "build": "webpack --mode production",
     "prestart": "npm build",
     "start": "webpack --mode development",
-    "predeploy": "yarn start",
+    "predeploy": "yarn build",
     "deploy": "aws s3 sync ./build s3://deploy-channeltalk --profile=seungjin"
   },
   "keywords": [],
