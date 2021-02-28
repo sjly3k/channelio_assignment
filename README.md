@@ -10,7 +10,7 @@
 - Production : Amazon Web Service, S3 Bucket 정적 웹사이트 호스팅 활용
 
 ## 프로젝트 시연
-- Production : http://deploy-channeltalk.s3-website.ap-northeast-2.amazonaws.com/
+- Production : https://deploy-channeltalk.s3.ap-northeast-2.amazonaws.com/index.html
 - Development
     1. 원하는 디렉토리에 진입하여 Commend 창에 https://github.com/sjly3k/channelio_assignment.git 입력
     2. 프로젝트 디렉토리로 진입하여 yarn start 명령어 실행 후 http://localhost:3001 접속
