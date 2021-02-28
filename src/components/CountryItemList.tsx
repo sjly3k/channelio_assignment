@@ -3,9 +3,8 @@ import { useCountryItemList } from '../hooks/useCountryItemList';
 import CountryItem from "./CountryItem";
 import styled from 'styled-components';
 import { Country } from 'src/modules/countries';
-import _ from "lodash"
-import useInfinteScroll from "../hooks/useIntersectionObserver";
-import {bool} from "prop-types";
+import uniq from "lodash/uniq"
+import useInfiniteScroll from "../hooks/useIntersectionObserver";
 
 const CountryItemList = () => {
 
@@ -41,11 +40,11 @@ const CountryItemList = () => {
                 searching = searching.concat(filtering)
             }
         }
-        searching = _.uniq(searching);
+        searching = uniq(searching);
         setSearchedCountries(searching)
     }, [searchTerm])
 
-    useInfinteScroll({
+    useInfiniteScroll({
         target : targetRef.current,
         threshold : 0.5,
         // @ts-ignore

@@ -10,8 +10,6 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import GlobalStyle from './styled/globalStyle';
 import "/node_modules/react-toastify/dist/ReactToastify.css"
 
-
-
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 const rootElement = document.getElementById('root');
 

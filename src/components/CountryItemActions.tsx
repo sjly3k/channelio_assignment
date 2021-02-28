@@ -4,7 +4,7 @@ import AddCountryForm from "./AddCountryForm";
 import {useCountryItemActions} from "../hooks/useCountryItemActions";
 import {toast} from "react-toastify";
 import {Country} from "../modules/countries";
-import _ from "lodash";
+import debounce from "lodash/debounce";
 
 const CountryItemActions = () => {
 
@@ -16,7 +16,7 @@ const CountryItemActions = () => {
     }
 
     const delayedQueryCall = useCallback(
-        _.debounce(updateCountries, 1000), [searchTerm])
+        debounce(updateCountries, 1000), [searchTerm])
 
     const handleInput = (e : React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value)
@@ -45,8 +45,9 @@ const CountryItemActions = () => {
     }
 
     const handleOnToggleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const target = e.target
         // @ts-ignore
-        onToggleFilter(e.target.name, e.target.value);
+        onToggleFilter(target.name, target.value);
     }
 
     return (

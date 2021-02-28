@@ -7,7 +7,7 @@ interface IProps {
     rootMargin? : string,
 }
 
-const useInfinteScroll = ({
+const useInfiniteScroll = ({
     target,
     onIntersect,
     threshold = 1.0,
@@ -22,9 +22,9 @@ const useInfinteScroll = ({
         });
         observer.observe(target);
         return () => {
-            observer.unobserve(target);
+            observer.disconnect();
         };
     }, [target, rootMargin, onIntersect, threshold]);
 };
 
-export default useInfinteScroll;
+export default useInfiniteScroll;

@@ -4,9 +4,7 @@ import Responsive from "../components/Responsive";
 import CountryItemList from "../components/CountryItemList";
 import CountryItemActions from "../components/CountryItemActions";
 
-const CountryListPageBlock = styled(Responsive)`
-
-`
+const CountryListPageBlock = styled(Responsive)``
 
 const CountryListItemPage = () => {
     return (
