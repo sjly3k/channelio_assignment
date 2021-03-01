@@ -19,5 +19,4 @@ export interface CountriesState {
     countries : Country[],
     error : string | null,
     currentLength : number,
-    isLastPage : boolean
 }

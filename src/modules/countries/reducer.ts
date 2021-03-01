@@ -1,10 +1,10 @@
 import { createReducer } from "typesafe-actions";
 import {
-  ADD_COUNTRY, DELETE_COUNTRY,
+  ADD_COUNTRY, ADD_CURRENT_LENGTH, DELETE_COUNTRY,
   GET_COUNTRIES,
   GET_COUNTRIES_FAILURE,
-  GET_COUNTRIES_SUCCESS, TOGGLE_BUTTON,
-} from "./actions";
+  GET_COUNTRIES_SUCCESS, TOGGLE_BUTTON
+} from './actions';
 import {CountriesState, CountriesActions} from "./types";
 
 const initialState : CountriesState = {
@@ -13,7 +13,6 @@ const initialState : CountriesState = {
   countries : [],
   error : null,
   currentLength : 0,
-  isLastPage : false
 };
 
 const countries = createReducer<CountriesState, CountriesActions>(initialState, {
@@ -23,10 +22,8 @@ const countries = createReducer<CountriesState, CountriesActions>(initialState, 
   [GET_COUNTRIES_SUCCESS] : (state, { payload }) => {
     return {
       ...state,
-      countries : state.countries.concat(payload),
+      countries : payload,
       error : null,
-      isLastPage : payload.length === 0,
-      currentLength : state.currentLength + payload.length
     };
   },
   [GET_COUNTRIES_FAILURE] : (state, { payload }) => ({
@@ -59,6 +56,10 @@ const countries = createReducer<CountriesState, CountriesActions>(initialState, 
     ...state,
     countries : state.countries.filter(country => country.name !== payload.name)
   }),
+  [ADD_CURRENT_LENGTH] : (state) => ({
+    ...state,
+    currentLength: state.currentLength + 10
+  })
 });
 
 export default countries;

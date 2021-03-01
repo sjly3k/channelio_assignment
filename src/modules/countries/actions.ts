@@ -10,6 +10,8 @@ export const ADD_COUNTRY = 'countries/ADD_COUNTRY' as const;
 export const DELETE_COUNTRY = 'countries/DELETE_COUNTRY' as const;
 export const TOGGLE_BUTTON = 'countries/TOGGLE_BUTTON' as const;
 
+export const ADD_CURRENT_LENGTH = 'countries/ADD_CURRENT_LENGTH' as const;
+
 export const getCountriesActions = createAsyncAction(
   GET_COUNTRIES,
   GET_COUNTRIES_SUCCESS,
@@ -27,3 +29,7 @@ export const addCountryAction = createAction(
 export const deleteCountryAction = createAction(
   DELETE_COUNTRY
 )<Country>();
+
+export const addCurrentLength = createAction(
+  ADD_CURRENT_LENGTH
+)();

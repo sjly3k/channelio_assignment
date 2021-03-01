@@ -8,9 +8,9 @@ import useInfiniteScroll from "../hooks/useIntersectionObserver";
 const CountryItemList = () => {
 
   const {countries : {
-    firstFilter, secondFilter, countries, currentLength, isLastPage
+    firstFilter, secondFilter, countries, currentLength
   },
-  search : {searchTerm}, loading, onGetCountries, onDeleteCountry
+  search : {searchTerm}, loading, onGetCountries, onDeleteCountry, onAddCurrentPage
   } = useCountryItemList();
   const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
 
@@ -18,7 +18,7 @@ const CountryItemList = () => {
 
 
   useEffect(() => {
-    onGetCountries(currentLength);
+    onGetCountries();
   }, []);
 
   useEffect(() => {
@@ -51,8 +51,8 @@ const CountryItemList = () => {
     threshold : 0.5,
     // @ts-ignore
     onIntersect: ([{ isIntersecting }]) => {
-      if (isIntersecting && !loading && !isLastPage) {
-        onGetCountries(currentLength);
+      if (isIntersecting && !loading) {
+        onAddCurrentPage();
       }
     }
   });
@@ -96,18 +96,17 @@ const CountryItemList = () => {
           </EmptyBlock>
         ) : searchTerm.length > 0 ?
           (
-            sortCountries(searchedCountries).map((country : Country) =>
+            sortCountries(searchedCountries).slice(0, currentLength).map((country : Country) =>
             // @ts-ignore
               <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
           )
           : (
-            sortCountries(countries).map((country : Country) =>
+            sortCountries(countries).slice(0, currentLength).map((country : Country) =>
             // @ts-ignore
               <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
           )
       }
-      {/* 페이지 끝을 감시하기 위한 빈 div */}
-      <div className={"empty-div"} ref={targetRef} />
+      <div className={"empty-div"} ref={targetRef}/>
     </CountryListBlock>
   );
 };

@@ -58,3 +58,28 @@
     
 - 검색 기능 (Rate limiting(debounce, throttle) 적용하여 타이핑 시 바로 검색)
     - 검색 기능을 Debouncing을 활용해 구현하였음
+
+### 과제에 대한 피드백
+- InfiniteScroll 구현은 되었지만 성능상 문제가 있어 보인다는 지적 (deps가 없는, 매렌더링마다 실행되는 useEffect에서 event listener 등록)
+- 제너럴하게 사용되기 어려울 것 같다는 지적
+- 검색 결과에는 적용되지 않는다는 지적
+### 추가적으로 생각해본 문제
+- 기존에 사용하던 방식은 scroll 이벤트가 지속적으로 발생하고, 이때마다 document.scrollHeight, document.scrollTop과 같은 변수들이 계속해서 연산되어야하는 문제 존재 (1번 피드백에 대한 추가 설명)
+- Intersection Observer는 기본적으로 IE에는 적용이 안되지만, Poly-fill을 사용하면 사용 가능.
+
+### 피드백을 통한 문제 해결
+다음과 같은 방법을 사용해 위의 문제를 전부 해결해보았습니다.
+
+    1. Intersection Observer API를 사용하였습니다. 본 API는 Viewport 상에서 Target으로 삼고 있는 DOM 노드가 Observe 되면, Callback 함수를 이용해 필요한 작업을 수행할 수 있습니다.
+    2. 따라서, 빈 '\<div>\'를 활용하여 이 태그가 observe되면, 다음 데이터를 호출하는 형식으로 수정하였습니다.
+    3. target으로 삼을 노드의 Ref값을 파라미터로 넘겨주는 방식으로, 다양한 컴포넌트에서 사용될 수 있도록 hook으로 제작하였습니다. (useInfiniteScroll Hook)
+
+### 성능 비교
+
+- 기존
+
+![ex_screenshot](./img/previous_performance.png)
+
+- 개선
+
+![ex_screenshot](./img/final_performance.png)
