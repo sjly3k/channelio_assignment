@@ -24,7 +24,7 @@ type ResponsiveProps = {
 };
 
 const Responsive = ({ children, ...rest }: ResponsiveProps) => {
-    return <ResponsiveBlock {...rest}>{children}</ResponsiveBlock>;
+  return <ResponsiveBlock {...rest}>{children}</ResponsiveBlock>;
 };
 
 export default Responsive;

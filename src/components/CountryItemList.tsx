@@ -7,101 +7,109 @@ import useInfiniteScroll from "../hooks/useIntersectionObserver";
 
 const CountryItemList = () => {
 
-    const {countries : {
-        firstFilter, secondFilter, countries, currentLength, isLastPage
-    },
-        search : {searchTerm}, loading, onGetCountries, onDeleteCountry
-    } = useCountryItemList();
-    const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
+  const {countries : {
+    firstFilter, secondFilter, countries, currentLength, isLastPage
+  },
+  search : {searchTerm}, loading, onGetCountries, onDeleteCountry
+  } = useCountryItemList();
+  const [searchedCountries, setSearchedCountries] = useState([] as Country[]);
 
-    const targetRef = useRef(null);
+  const targetRef = useRef(null);
 
 
-    useEffect(() => {
-        onGetCountries(currentLength);
-    }, [])
+  useEffect(() => {
+    onGetCountries(currentLength);
+  }, []);
 
-    useEffect(() => {
-        let searching = [] as any;
-        for (const str of ["name", "alpha2Code", "region", "callingCodes", "capital"]) {
-            // @ts-ignore
-            if (str === "callingCodes") {
-                const filtering = countries.filter((country : Country) => {
-                    const findCode = country.callingCodes.filter(code => {
-                        return code.indexOf(searchTerm) > 0 || code === searchTerm;
-                    })
-                    return findCode.length > 0
-                })
-                searching = searching.concat(filtering)
-            } else {
-                // @ts-ignore
-                const filtering = countries.filter((country : Country) => country[str].toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0)
-                searching = searching.concat(filtering)
-            }
-        }
-
-        import('lodash/uniq').then(uniq => {
-            searching = uniq.default(searching);
-            setSearchedCountries(searching)
-        })
-    }, [searchTerm])
-
-    useInfiniteScroll({
-        target : targetRef.current,
-        threshold : 0.5,
+  useEffect(() => {
+    let searching = [] as any;
+    for (const str of ["name", "alpha2Code", "region", "callingCodes", "capital"]) {
+      // @ts-ignore
+      if (str === "callingCodes") {
+        const filtering = countries.filter((country : Country) => {
+          const findCode = country.callingCodes.filter(code => {
+            return code.indexOf(searchTerm) > 0 || code === searchTerm;
+          });
+          return findCode.length > 0;
+        });
+        searching = searching.concat(filtering);
+      } else {
         // @ts-ignore
-        onIntersect: ([{ isIntersecting }]) => {
-            if (isIntersecting && !loading && !isLastPage) {
-                onGetCountries(currentLength);
-            }
-        }
-    });
-
-
-    const sortCountries = (countries : Country[]) => {
-        if (secondFilter === "DESC")
-            return ( countries.sort((a, b) => {
-                if (firstFilter === "callingCodes" && !(isNaN(Number(a["callingCodes"][0])) || isNaN(Number(b["callingCodes"][0])))) {
-                    // @ts-ignore
-                    return a["callingCodes"][0] - b["callingCodes"][0]
-                } else {
-                    if (a[firstFilter] > b[firstFilter]) return 1
-                    else if (a[firstFilter] === b[firstFilter]) return 0
-                    else return -1;
-                }
-            }))
-        else
-            return ( countries.sort((a, b) => {
-                if (firstFilter === "callingCodes" && !(isNaN(Number(a["callingCodes"][0])) || isNaN(Number(b["callingCodes"][0])))) {
-                    // @ts-ignore
-                    return b["callingCodes"][0] - a["callingCodes"][0]
-                } else {
-                    if (a[firstFilter] > b[firstFilter]) return -1
-                    else if (a[firstFilter] === b[firstFilter]) return 0
-                    else return 1;
-                }
-        }))
+        const filtering = countries.filter((country : Country) => country[str].toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0);
+        searching = searching.concat(filtering);
+      }
     }
 
-    return (
-        <CountryListBlock>
-            {!loading && countries.length === 0 ?
-                (
-                <EmptyBlock>
+    import('lodash/uniq').then(uniq => {
+      searching = uniq.default(searching);
+      setSearchedCountries(searching);
+    });
+  }, [searchTerm]);
+
+  useInfiniteScroll({
+    target : targetRef.current,
+    threshold : 0.5,
+    // @ts-ignore
+    onIntersect: ([{ isIntersecting }]) => {
+      if (isIntersecting && !loading && !isLastPage) {
+        onGetCountries(currentLength);
+      }
+    }
+  });
+
+
+  const sortCountries = (countries : Country[]) => {
+    if (secondFilter === "DESC")
+      return ( countries.sort((a, b) => {
+        if (firstFilter === "callingCodes" && !(isNaN(Number(a["callingCodes"][0])) || isNaN(Number(b["callingCodes"][0])))) {
+          // @ts-ignore
+          return a["callingCodes"][0] - b["callingCodes"][0];
+        } else {
+          // @ts-ignore
+          if (a[firstFilter] > b[firstFilter]) return 1;
+          // @ts-ignore
+          else if (a[firstFilter] === b[firstFilter]) return 0;
+          else return -1;
+        }
+      }));
+    else
+      return ( countries.sort((a, b) => {
+        if (firstFilter === "callingCodes" && !(isNaN(Number(a["callingCodes"][0])) || isNaN(Number(b["callingCodes"][0])))) {
+          // @ts-ignore
+          return b["callingCodes"][0] - a["callingCodes"][0];
+        } else {
+          // @ts-ignore
+          if (a[firstFilter] > b[firstFilter]) return -1;
+          // @ts-ignore
+          else if (a[firstFilter] === b[firstFilter]) return 0;
+          else return 1;
+        }
+      }));
+  };
+
+  return (
+    <CountryListBlock>
+      {!loading && countries.length === 0 ?
+        (
+          <EmptyBlock>
                     나라가 로딩중입니다.
-                </EmptyBlock>
-            ) : searchTerm.length > 0 ?
-                    (
-                    sortCountries(searchedCountries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
-                )
-            : (
-                    sortCountries(countries).map((country : Country) => <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
-                )
-            }
-            {/* 페이지 끝을 감시하기 위한 빈 div */}
-            <div className={"empty-div"} ref={targetRef} />
-        </CountryListBlock>
-    );
+          </EmptyBlock>
+        ) : searchTerm.length > 0 ?
+          (
+            sortCountries(searchedCountries).map((country : Country) =>
+            // @ts-ignore
+              <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+          )
+          : (
+            sortCountries(countries).map((country : Country) =>
+            // @ts-ignore
+              <CountryItem key={country.name} country={country} deleteCountry={onDeleteCountry}/>)
+          )
+      }
+      {/* 페이지 끝을 감시하기 위한 빈 div */}
+      <div className={"empty-div"} ref={targetRef} />
+    </CountryListBlock>
+  );
 };
 
 const CountryListBlock = styled.div`

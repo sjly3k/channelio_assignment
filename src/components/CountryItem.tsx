@@ -7,41 +7,42 @@ interface IProps {
     deleteCountry : any;
 }
 
-const CountryItem = ({ country, deleteCountry } : IProps) => {
+// @ts-ignore
+const CountryItem : React.FC = ({ country, deleteCountry } : IProps) => {
 
-    const { name, alpha2Code, callingCodes, capital, region } = country;
-    const key = name + capital + region
-    return (
-        <CountryItemBlock key={key}>
-            <div className="country-list">
-                <div className="name"><strong>국가명</strong> : {name}</div>
-                <div className="name"><strong>국가코드</strong> : {
-                    alpha2Code ? (<span> {alpha2Code}</span>) : (<span> 없음</span>)
-                }
-                </div>
-                <div className="name"><strong>수도</strong> : {
-                    capital ? (<span> {capital}</span>) : (<span> 없음</span>)
-                }
-                </div>
-                <div className="name"><strong>지역</strong> : {
-                    region ? (<span> {region}</span>) : (<span> 없음</span>)
-                }
-                </div>
-                <div className={"name"}><strong>지역코드</strong> :
-                    {
-                        callingCodes.map(code => {
-                            if (!code) {
-                                return <span key={`${name}-${code}`}> 없음</span>
-                            } else return (<span key={`${name}-${code}`}> '{code}' </span>)
-                        })
-                    }
-                </div>
-            </div>
-            <div className={"country-btn"} onClick={() => deleteCountry(country)}>
-                <div className={"btn-delete"}>국가 삭제</div>
-            </div>
-        </CountryItemBlock>
-    );
+  const { name, alpha2Code, callingCodes, capital, region } = country;
+  const key = name + capital + region;
+  return (
+    <CountryItemBlock key={key}>
+      <div className="country-list">
+        <div className="name"><strong>국가명</strong> : {name}</div>
+        <div className="name"><strong>국가코드</strong> : {
+          alpha2Code ? (<span> {alpha2Code}</span>) : (<span> 없음</span>)
+        }
+        </div>
+        <div className="name"><strong>수도</strong> : {
+          capital ? (<span> {capital}</span>) : (<span> 없음</span>)
+        }
+        </div>
+        <div className="name"><strong>지역</strong> : {
+          region ? (<span> {region}</span>) : (<span> 없음</span>)
+        }
+        </div>
+        <div className={"name"}><strong>지역코드</strong> :
+          {
+            callingCodes.map(code => {
+              if (!code) {
+                return <span key={`${name}-${code}`}> 없음</span>;
+              } else return (<span key={`${name}-${code}`}> "{code}" </span>);
+            })
+          }
+        </div>
+      </div>
+      <div className={"country-btn"} onClick={() => deleteCountry(country)}>
+        <div className={"btn-delete"}>국가 삭제</div>
+      </div>
+    </CountryItemBlock>
+  );
 };
 
 

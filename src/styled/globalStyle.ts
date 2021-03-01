@@ -65,5 +65,5 @@ const GlobalStyle = createGlobalStyle`
       font-size: 1rem;
       box-sizing: border-box;
     }
-`
-export default GlobalStyle
+`;
+export default GlobalStyle;

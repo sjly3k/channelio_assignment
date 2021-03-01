@@ -7,15 +7,15 @@ import {applyMiddleware, createStore} from 'redux';
 import rootReducer from './modules';
 import thunk from 'redux-thunk';
 import GlobalStyle from './styled/globalStyle';
-import "/node_modules/react-toastify/dist/ReactToastify.css"
+import "/node_modules/react-toastify/dist/ReactToastify.css";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-    <Provider store={store}>
-        <GlobalStyle />
-        <ToastContainer position={"top-right"}/>
-        <App />
-    </Provider>,
-rootElement);
+  <Provider store={store}>
+    <GlobalStyle />
+    <ToastContainer position={"top-right"}/>
+    <App />
+  </Provider>,
+  rootElement);
